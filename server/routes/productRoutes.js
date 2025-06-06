@@ -5,7 +5,7 @@ const {
   getProducts,
   createProduct,
 } = require("../controllers/productController");
-const { protect } = require("../middleware/auth");
+const { protect } = require("../models/middleware/auth");
 
 router.get("/", getProducts);
 router.post("/", protect, createProduct);
