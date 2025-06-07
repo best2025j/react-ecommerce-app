@@ -6,7 +6,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-const { errorHandler } = require("./models/middleware/errorHandler");
+const { errorHandler } = require("./middleWare/errorHandler");
 
 const app = express();
 dotenv.config();
