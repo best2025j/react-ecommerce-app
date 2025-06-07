@@ -6,7 +6,7 @@ import Register from "./pages/Register";
 import Checkout from "./pages/Checkout";
 import PrivateRoute from "./components/PrivateRoute";
 
-function App() {
+const App = () => {
   
   return (
     <Routes>
@@ -24,6 +24,6 @@ function App() {
       <Route path="*" element={<h1>404 - Page Not Found</h1>} />
     </Routes>
   );
-}
+};
 
 export default App;

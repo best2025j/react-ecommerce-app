@@ -10,3 +10,10 @@
   --color-gray-20: #f9f9fa;
   --color-gray-25: ##f8f8f8;
 }
+
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #000 !important;
+} */

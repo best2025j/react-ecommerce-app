@@ -15,7 +15,7 @@ const Register = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/"); // redirect after successful register
+      navigate("/");
     }
   }, [user, navigate]);
 
@@ -31,22 +31,36 @@ const Register = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Run validations first
     const validationErrors = validateForm();
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    setErrors({}); // clear errors before dispatch
-    dispatch(register(form));
+    setErrors({});
+
+    try {
+      const resultAction = await dispatch(register(form));
+
+      if (register.fulfilled.match(resultAction)) {
+        const { token, user } = resultAction.payload;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        setForm({ name: "", email: "", password: "" });
+        navigate("/");
+      } else {
+        setErrors({ general: resultAction.payload || "Registration failed" });
+      }
+    } catch (err) {
+      setErrors({ general: "Something went wrong" });
+    }
   };
 
   const inputClass = (name) =>
-    `w-full border-2 rounded-lg p-2 text-sm outline-none transition-all duration-200 ${
+    `w-full border-2 rounded-lg p-2 text-sm text-black outline-none transition-all duration-200 ${
       errors[name]
         ? "border-red-500"
         : focused[name]
@@ -60,17 +74,17 @@ const Register = () => {
     );
 
   return (
-    <div className="md:h-[900px] flex justify-center w-full items-center mx-auto">
-      <div className="bg-white max-w-lg flex flex-col space-y-2 justify-center w-full items-center mx-auto mt-10 p-6 rounded-xl shadow-lg">
-        <h1 className="font-bold text-2xl">Register</h1>
+    <div className="flex justify-center items-center w-full min-h-screen">
+      <div className="bg-white max-w-lg w-full p-6 rounded-xl shadow-lg">
+        <h1 className="text-2xl font-bold text-center mb-4">Register</h1>
 
-        {/* show general redux error from backend */}
-        {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+        {errors.general && (
+          <p className="text-red-600 text-sm text-center mb-2">
+            {errors.general}
+          </p>
+        )}
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col w-full mt-6 space-y-4"
-        >
+        <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
           {/* Name */}
           <div>
             <label htmlFor="name" className="text-sm font-medium">
@@ -79,13 +93,14 @@ const Register = () => {
             <input
               id="name"
               name="name"
-              className={inputClass("name")}
               type="text"
+              className={inputClass("name")}
               placeholder="Enter your name"
               value={form.name}
               onChange={handleChange}
-              onFocus={() => setFocused({ ...focused, name: true })}
-              onBlur={() => setFocused({ ...focused, name: false })}
+              autoComplete="off"
+              onFocus={() => setFocused((prev) => ({ ...prev, name: true }))}
+              onBlur={() => setFocused((prev) => ({ ...prev, name: false }))}
             />
             {renderError("name")}
           </div>
@@ -99,16 +114,18 @@ const Register = () => {
               <input
                 id="email"
                 name="email"
-                className={inputClass("email")}
                 type="email"
+                className={inputClass("email")}
                 placeholder="Enter your email"
                 value={form.email}
                 onChange={handleChange}
-                onFocus={() => setFocused({ ...focused, email: true })}
-                onBlur={() => setFocused({ ...focused, email: false })}
+                autoComplete="off"
+                onFocus={() => setFocused((prev) => ({ ...prev, email: true }))}
+                onBlur={() => setFocused((prev) => ({ ...prev, email: false }))}
               />
               {renderError("email")}
             </div>
+
 
             {/* Password */}
             <div className="w-full">
@@ -118,28 +135,32 @@ const Register = () => {
               <input
                 id="password"
                 name="password"
-                className={inputClass("password")}
                 type="password"
+                className={inputClass("password")}
                 placeholder="Enter your password"
                 value={form.password}
                 onChange={handleChange}
-                onFocus={() => setFocused({ ...focused, password: true })}
-                onBlur={() => setFocused({ ...focused, password: false })}
+                autoComplete="new-password"
+                onFocus={() =>
+                  setFocused((prev) => ({ ...prev, password: true }))
+                }
+                onBlur={() =>
+                  setFocused((prev) => ({ ...prev, password: false }))
+                }
               />
               {renderError("password")}
             </div>
           </div>
 
-          {/* Submit button*/}
-          <div className="py-2">
-            <button
-              className="p-2 bg-blue-400 text-white w-full font-bold text-sm rounded-full"
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? "Registering..." : "Register"}
-            </button>
-          </div>
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white font-bold py-2 rounded-full"
+            disabled={loading}
+          >
+            {loading ? "Registering..." : "Register"}
+          </button>
+          {error && <p className="text-red-500 text-xs">{error}</p>}
         </form>
       </div>
     </div>
