@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -31,10 +32,11 @@ const Register = () => {
     return newErrors;
   };
 
+  // handle submit for register
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validateForm();
 
+    const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -46,19 +48,31 @@ const Register = () => {
       const resultAction = await dispatch(register(form));
 
       if (register.fulfilled.match(resultAction)) {
-        const { token, user } = resultAction.payload;
+        const { token, ...user } = resultAction.payload;
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
         setForm({ name: "", email: "", password: "" });
-        navigate("/");
+
+        toast.success(
+          resultAction.payload.message || "User registered successfully"
+        );
+
+        navigate("/Login");
       } else {
-        setErrors({ general: resultAction.payload || "Registration failed" });
+        const errorMessage =
+          resultAction.payload?.message ||
+          "Registration failed. Please try again.";
+        setErrors({ general: errorMessage });
+        toast.error(errorMessage);
       }
     } catch (err) {
+      console.error("Registration error:", err);
       setErrors({ general: "Something went wrong" });
+      toast.error("Something went wrong. Please try again later.");
     }
   };
 
+  //
   const inputClass = (name) =>
     `w-full border-2 rounded-lg p-2 text-sm text-black outline-none transition-all duration-200 ${
       errors[name]
@@ -125,7 +139,6 @@ const Register = () => {
               />
               {renderError("email")}
             </div>
-
 
             {/* Password */}
             <div className="w-full">

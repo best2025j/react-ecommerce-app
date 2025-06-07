@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -12,6 +13,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const { user, loading, error } = useSelector((state) => state.auth);
+
+  //
 
   useEffect(() => {
     if (user) {
@@ -30,6 +33,8 @@ const Login = () => {
     return newErrors;
   };
 
+
+  // form button submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -45,16 +50,28 @@ const Login = () => {
       const resultAction = await dispatch(login(form));
 
       if (login.fulfilled.match(resultAction)) {
-        const { token, user } = resultAction.payload;
+        const { token, ...user } = resultAction.payload;
+
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
         setForm({ email: "", password: "" });
+
+        toast.success(
+          resultAction.payload.message || "User logged in successfully"
+        );
+
         navigate("/");
       } else {
-        setErrors({ general: resultAction.payload || "Login failed" });
+        const errorMessage =
+          resultAction.payload?.message ||
+          "Login failed. Please check your credentials.";
+        setErrors({ general: errorMessage });
+        toast.error(errorMessage);
       }
     } catch (err) {
+      console.error("Login error:", err);
       setErrors({ general: "Something went wrong" });
+      toast.error("Something went wrong. Please try again later.");
     }
   };
 
