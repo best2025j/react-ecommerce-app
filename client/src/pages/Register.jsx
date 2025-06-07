@@ -14,11 +14,11 @@ const Register = () => {
 
   const { user, loading, error } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/");
+  //   }
+  // }, [user, navigate]);
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -57,7 +57,7 @@ const Register = () => {
           resultAction.payload.message || "User registered successfully"
         );
 
-        navigate("/Login");
+        navigate("/");
       } else {
         const errorMessage =
           resultAction.payload?.message ||

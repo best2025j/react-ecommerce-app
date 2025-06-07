@@ -16,11 +16,11 @@ const Login = () => {
 
   //
 
-  useEffect(() => {
-    if (user) {
-      navigate("/"); // redirect on successful login
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/"); // redirect on successful login
+  //   }
+  // }, [user, navigate]);
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));

@@ -9,8 +9,9 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/productController");
+const { protect, admin } = require("../middleWare/auth");
 
-const { protect, admin } = require("../middleware/auth"); // ✅ Correct path & import
+ // ✅ Correct path & import
 
 // Public routes
 router.get("/", getProducts);
