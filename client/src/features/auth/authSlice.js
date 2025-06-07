@@ -20,8 +20,6 @@ export const register = createAsyncThunk(
   }
 );
 
-
-
 // Login thunk
 export const login = createAsyncThunk(
   "auth/login",
@@ -40,13 +38,22 @@ export const login = createAsyncThunk(
   }
 );
 
+const userFromStorage = () => {
+  try {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  } catch (e) {
+    return null;
+  }
+};
+
 const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
-  token: localStorage.getItem("token") || null,
+  user: userFromStorage(),
   loading: false,
   error: null,
 };
 
+// auth slice
 const authSlice = createSlice({
   name: "auth",
   initialState,
