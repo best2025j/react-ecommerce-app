@@ -1,18 +1,17 @@
 // server/controllers/authController.js
-import { User } from "../models/User.js";
-import jwt from "jsonwebtoken";
+const { User } = require("../models/User.js");
+const jwt = require("jsonwebtoken");
 
-
-// 
+//
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 
-
 // for user registring for the first time
-export const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
   const userExists = await User.findOne({ email });
-  // 
+
+  //
   if (userExists)
     return res.status(400).json({ message: "User already exists" });
 
@@ -23,12 +22,12 @@ export const registerUser = async (req, res) => {
     .json({ _id: user._id, name: user.name, email: user.email, token });
 };
 
-
 // for user alredy registered or already has an account
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  // 
+
+  //
   if (user && (await user.matchPassword(password))) {
     const token = generateToken(user._id);
     res.json({ _id: user._id, name: user.name, email: user.email, token });
@@ -36,3 +35,6 @@ export const loginUser = async (req, res) => {
     res.status(401).json({ message: "Invalid credentials" });
   }
 };
+
+// Export in CommonJS style
+module.exports = { registerUser, loginUser };
