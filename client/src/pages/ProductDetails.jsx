@@ -5,4 +5,3 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
-z
