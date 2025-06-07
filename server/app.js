@@ -20,7 +20,6 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 
 app.use(errorHandler);
-
 module.exports = app;
 
 
