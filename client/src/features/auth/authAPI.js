@@ -14,3 +14,10 @@ export const loginUser = async (userData) => {
   const response = await axios.post(`${API_URL}/login`, userData);
   return response.data;
 };
+
+// users
+export const getAllUsers = async () => {
+  const response = await axios.get("http://localhost:5000/api/auth/users");
+  // const response = await axios.get(`${API_URL}/users`, userData);
+  return response.data;
+};
