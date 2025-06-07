@@ -1,12 +1,34 @@
-import React from "react";
-import Navbar from "../components/Navbar";
+import React, { useState } from "react";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
 
-const Home = () => {
+export default function Home() {
+  const [view, setView] = useState("register");
+
   return (
     <div>
-      <Navbar />
+      <div className="p-4 shadow flex justify-between w-full">
+        <h1 className="text-xl font-bold">Simple Auth</h1>
+
+        {/* button for register and login */}
+        <div className="flex space-x-4">
+          <button
+            className="cursur-pointer px-4 py-2 text-sm font-medium rounded-full shadow border border-blue-400 text-blue-400 "
+            onClick={() => setView("register")}
+          >
+            Register
+          </button>
+          <button
+            className="cursur-pointer px-4 py-2 text-sm font-medium rounded-full shadow bg-blue-400 text-white"
+            onClick={() => setView("login")}
+          >
+            Login
+          </button>
+        </div>
+      </div>
+
+      {/* to view any auth page thats is clicked */}
+      {view === "register" ? <Register /> : <Login />}
     </div>
   );
-};
-
-export default Home;
+}

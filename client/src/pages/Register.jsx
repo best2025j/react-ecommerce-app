@@ -1,10 +1,27 @@
-import { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [focused, setFocused] = useState({});
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user, loading, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/"); // redirect after successful register
+    }
+  }, [user, navigate]);
+
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -14,31 +31,18 @@ const Register = () => {
     return newErrors;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // validations
+    // Run validations first
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    try {
-      // post request using axios
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        form
-      );
-      console.log("Registered:", res.data);
-      alert("Registration successful!");
-      setForm({ name: "", email: "", password: "" });
-    } catch (err) {
-      console.error(err.response?.data?.message);
-      if (err.response?.data?.message) {
-        setErrors({ general: err.response.data.message });
-      }
-    }
+    setErrors({}); // clear errors before dispatch
+    dispatch(register(form));
   };
 
   const inputClass = (name) =>
@@ -60,27 +64,26 @@ const Register = () => {
       <div className="bg-white max-w-lg flex flex-col space-y-2 justify-center w-full items-center mx-auto mt-10 p-6 rounded-xl shadow-lg">
         <h1 className="font-bold text-2xl">Register</h1>
 
-        {/* general error indicator when form is not field and submit was clicked */}
-        {errors.general && (
-          <p className="text-red-600 text-sm text-center">{errors.general}</p>
-        )}
+        {/* show general redux error from backend */}
+        {error && <p className="text-red-600 text-sm text-center">{error}</p>}
 
         <form
           onSubmit={handleSubmit}
           className="flex flex-col w-full mt-6 space-y-4"
         >
           {/* Name */}
-          <div className="">
+          <div>
             <label htmlFor="name" className="text-sm font-medium">
               Name
             </label>
             <input
               id="name"
+              name="name"
               className={inputClass("name")}
               type="text"
               placeholder="Enter your name"
               value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              onChange={handleChange}
               onFocus={() => setFocused({ ...focused, name: true })}
               onBlur={() => setFocused({ ...focused, name: false })}
             />
@@ -95,11 +98,12 @@ const Register = () => {
               </label>
               <input
                 id="email"
+                name="email"
                 className={inputClass("email")}
                 type="email"
                 placeholder="Enter your email"
                 value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                onChange={handleChange}
                 onFocus={() => setFocused({ ...focused, email: true })}
                 onBlur={() => setFocused({ ...focused, email: false })}
               />
@@ -113,11 +117,12 @@ const Register = () => {
               </label>
               <input
                 id="password"
+                name="password"
                 className={inputClass("password")}
                 type="password"
                 placeholder="Enter your password"
                 value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                onChange={handleChange}
                 onFocus={() => setFocused({ ...focused, password: true })}
                 onBlur={() => setFocused({ ...focused, password: false })}
               />
@@ -125,13 +130,14 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Submit */}
+          {/* Submit button*/}
           <div className="py-2">
             <button
               className="p-2 bg-blue-400 text-white w-full font-bold text-sm rounded-full"
               type="submit"
+              disabled={loading}
             >
-              Register
+              {loading ? "Registering..." : "Register"}
             </button>
           </div>
         </form>

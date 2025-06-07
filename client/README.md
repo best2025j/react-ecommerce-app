@@ -28,8 +28,7 @@ You're building a full-stack e-commerce application where users can:
 
 ## ⚙️ Technology Stack to be used
 
-🖥️ Frontend ( <div>
- <div>Client)
+🖥️ Frontend (client)
 -Vite + React – Fast build tool with React for UI
 -React Router DOM – For page routing
 -Axios – To make HTTP requests to the backend

@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [focused, setFocused] = useState({});
-
 
   // form validations
   const validateForm = () => {
@@ -14,6 +15,17 @@ const Login = () => {
     if (!form.password) newErrors.password = "Password is required";
     return newErrors;
   };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user, loading, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/"); // redirect if logged in
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,9 +41,16 @@ const Login = () => {
         "http://localhost:5000/api/auth/login",
         form
       );
-      console.log("Login Success:", res.data);
+
+      // Save token and user
+      const { token, user } = res.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Redirect to homepage or dashboard
+      navigate("/");
+
       alert("Login successful!");
-      setForm({ email: "", password: "" });
     } catch (err) {
       console.error(err.response?.data?.message);
       if (err.response?.data?.message) {
@@ -107,9 +126,9 @@ const Login = () => {
           <div className="pt-4">
             <button
               className="p-2 bg-blue-400 text-white w-full font-bold text-sm rounded-full"
-              type="submit"
+              disabled={loading}
             >
-              Login
+              {loading ? "Registering..." : "Login"}
             </button>
           </div>
         </form>
