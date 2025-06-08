@@ -21,3 +21,16 @@ export const getAllUsers = async () => {
   // const response = await axios.get(`${API_URL}/users`, userData);
   return response.data;
 };
+
+// ✅ Get user by ID with token
+export const getUserById = async (userId, token) => {
+  const response = await axios.get(
+    `http://localhost:5000/api/auth/users/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};

@@ -5,21 +5,25 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <div className="p-4 shadow flex justify-between w-full">
-        <h1 className="text-xl font-bold">Simple Auth</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white shadow-lg rounded-lg p-8 text-center max-w-md w-full">
+        <h1 className="text-3xl font-bold text-blue-600 mb-4">
+          Welcome to Simple Auth Shop 🛍️
+        </h1>
+        <p className="text-gray-600 mb-6">
+          Your simple e-commerce platform with authentication.
+        </p>
 
-        {/* Navigate to Register or Login page */}
-        <div className="flex space-x-4">
+        <div className="flex justify-center gap-4">
           <button
-            className="cursor-pointer px-4 py-2 text-sm font-medium rounded-full shadow border border-blue-400 text-blue-400"
-            onClick={() => navigate("/Register")}
+            className="px-6 py-2 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-50"
+            onClick={() => navigate("/register")}
           >
             Register
           </button>
           <button
-            className="cursor-pointer px-4 py-2 text-sm font-medium rounded-full shadow bg-blue-400 text-white"
-            onClick={() => navigate("/Login")}
+            className="px-6 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600"
+            onClick={() => navigate("/login")}
           >
             Login
           </button>

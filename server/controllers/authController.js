@@ -60,19 +60,18 @@ const loginUser = async (req, res) => {
   }
 };
 
-// GET /api/auth/users - Get all users (example: for admin)
+// Get all users (without passwords)
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password"); // exclude password
-    res.json(users);
+    res.status(200).json(users);
   } catch (error) {
-    console.error("Get users error:", error);
+    console.error("Fetch users error:", error);
     res.status(500).json({ message: "Server error fetching users" });
   }
 };
 
-
-// 
+// get user by id
 const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");

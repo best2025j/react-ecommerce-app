@@ -7,6 +7,7 @@ const {
   getAllUsers,
   getUserById,
 } = require("../controllers/authController");
+const { protect } = require("../middleWare/auth");
 
 router.post("/register", registerUser); // POST /api/auth/register
 
@@ -14,6 +15,6 @@ router.post("/login", loginUser); // POST /api/auth/login
 
 router.get("/users", getAllUsers); // GET /api/auth/users
 
-router.get("/users/:id", getUserById); // GET
+router.get("/users/:id", protect, getUserById); // GET
 
 module.exports = router;

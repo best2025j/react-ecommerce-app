@@ -1,25 +1,32 @@
-// client/src/features/cart/cartSlice.js
+// src/features/cart/cartSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
 
 const initialState = {
-  items: [],
+  cartItems: [],
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem: (state, action) => {
-      state.items.push(action.payload);
-      toast.success("Item added to cart!");
+    addToCart: (state, action) => {
+      const item = action.payload;
+      const existItem = state.cartItems.find((i) => i._id === item._id);
+      if (existItem) {
+        // update quantity or ignore
+        existItem.quantity += item.quantity || 1;
+      } else {
+        state.cartItems.push({ ...item, quantity: item.quantity || 1 });
+      }
     },
-    removeItem: (state, action) => {
-      state.items = state.items.filter((item) => item.id !== action.payload);
-      toast.info("Item removed from cart.");
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter((i) => i._id !== action.payload);
+    },
+    clearCart: (state) => {
+      state.cartItems = [];
     },
   },
 });
 
-export const { addItem, removeItem } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
