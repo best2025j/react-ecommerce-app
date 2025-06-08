@@ -1,10 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { addItem, removeItem } from "../features/cart/cartSlice";
-import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const cart = useSelector((state) => state.cart.items);
+    const navigate = useNavigate();
+  
   const dispatch = useDispatch();
 
   return (
@@ -27,22 +29,28 @@ const Navbar = () => {
               Cart ({cart.length})
             </Link>
           </li>
-          <li>
-            <Link to="/login" className="hover:text-blue-600">
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link to="/register" className="hover:text-blue-600">
-              Register
-            </Link>
-          </li>
+
           <li>
             <Link to="/dashboard" className="hover:text-blue-600">
               Dashboard
             </Link>
           </li>
         </ul>
+
+        <div className="flex justify-center gap-4">
+          <button
+            className="px-6 py-2 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-50"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </button>
+          <button
+            className="px-6 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </button>
+        </div>
       </nav>
 
       <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6">

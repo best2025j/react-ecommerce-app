@@ -1,7 +1,7 @@
 // src/pages/UserDetails.jsx (or any component file)
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserById } from "../features/auth/authSlice";
+import { getUserById } from "../../features/auth/authSlice";
 
 const UserDetails = () => {
   const dispatch = useDispatch();

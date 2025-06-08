@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import { login } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -33,7 +33,6 @@ const Login = () => {
     return newErrors;
   };
 
-
   // form button submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +59,7 @@ const Login = () => {
           resultAction.payload.message || "User logged in successfully"
         );
 
-        navigate("/");
+        navigate("/home");
       } else {
         const errorMessage =
           resultAction.payload?.message ||

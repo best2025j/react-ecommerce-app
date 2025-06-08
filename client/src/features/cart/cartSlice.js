@@ -1,4 +1,4 @@
-// src/store/slices/cartSlice.js
+// src/features/cart/cartSlice.js (NOT .jsx)
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -16,10 +16,10 @@ const cartSlice = createSlice({
     },
     removeItem(state, action) {
       const id = action.payload;
-      const existingIndex = state.items.findIndex((item) => item.id === id);
-      if (existingIndex !== -1) {
-        state.totalAmount -= state.items[existingIndex].price;
-        state.items.splice(existingIndex, 1);
+      const index = state.items.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        state.totalAmount -= state.items[index].price;
+        state.items.splice(index, 1);
       }
     },
     clearCart(state) {
