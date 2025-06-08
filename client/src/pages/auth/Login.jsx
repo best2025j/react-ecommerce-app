@@ -18,7 +18,7 @@ const Login = () => {
 
   // useEffect(() => {
   //   if (user) {
-  //     navigate("/"); // redirect on successful login
+  //     navigate("/"); // redirect on successful Login
   //   }
   // }, [user, navigate]);
 
@@ -59,7 +59,7 @@ const Login = () => {
           resultAction.payload.message || "User logged in successfully"
         );
 
-        navigate("/home");
+        navigate("/");
       } else {
         const errorMessage =
           resultAction.payload?.message ||

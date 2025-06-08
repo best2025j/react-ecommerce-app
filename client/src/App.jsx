@@ -1,8 +1,14 @@
-// App.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home";
 import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
+import Dashboard from "./pages/dashboard";
+import ProductList from "./pages/products/ProductList";
+import Cart from "./pages/cart";
+import ProductDetails from "./pages/products/ProductDetails";
+import PrivateRoute from "./components/PrivateRoute";
+import Checkout from "./pages/cart/Checkout";
 
 const App = () => {
   return (
