@@ -3,12 +3,19 @@ Phase	Focus on Building:
 ✅ Phase 1	Auth (register/login with JWT, bcrypt, protected routes). done
 
 ✅ Phase 2	Products CRUD (only admin can create/update/delete).done
-✅ Phase 3	Cart (user adds/removes products)
+
+✅ Phase 3	Cart (user adds/removes products).done
+
 ✅ Phase 4	Orders (checkout, order history)
 ✅ Phase 5	Payment Integration (optional, fake data or Stripe later)
 
 
 
+Add order status (pending, paid, shipped, etc.).
+
+Store cart in DB for persistence (if needed).
+
+Admin access to view/manage all orders.
 
 
 🧾 3. Order Model and Routes
@@ -36,6 +43,9 @@ GET /api/orders/myorders (protected)
 
 Admin: GET /api/orders (all)
 
+
+
+
 👤 4. User Profile & Admin Controls
 GET /api/users/profile (protected)
 
@@ -49,12 +59,16 @@ PUT /api/users/:id
 
 DELETE /api/users/:id
 
+
+
 💳 5. Payment Integration (Optional)
 You can add:
 
 Stripe / PayPal integration for checking out
 
 Simulate payment for learning
+
+
 
 🧪 6. Test All Routes with Postman
 Be sure to test:
