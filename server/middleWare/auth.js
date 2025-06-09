@@ -16,7 +16,6 @@ const User = require("../models/User.js"); // no curly braces here
 // };
 
 
-
 const protect = async (req, res, next) => {
   let token;
 
@@ -42,7 +41,6 @@ const protect = async (req, res, next) => {
     res.status(401).json({ message: "Not authorized, no token" });
   }
 };
-
 
 const admin = (req, res, next) => {
   if (req.user && req.user.role === "admin") {

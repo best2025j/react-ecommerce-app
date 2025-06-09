@@ -6,8 +6,10 @@ const createOrder = async (req, res) => {
     const order = await Order.create({ ...req.body, user: req.user._id });
     res.status(201).json(order);
   } catch (error) {
-    console.error("Create Order Error:", error);
-    res.status(500).json({ message: "Failed to create order" });
+    console.error("❌ Error creating order:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to create order", error: error.message });
   }
 };
 
