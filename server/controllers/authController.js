@@ -48,11 +48,11 @@ const loginUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        token,
+        token: generateToken(user._id), // ✅ Send token back
         message: "Login successful",
       });
     } else {
-      res.status(401).json({ message: "Invalid credentials" });
+      res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
     console.error("Login error:", error);

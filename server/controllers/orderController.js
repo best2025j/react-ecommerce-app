@@ -32,7 +32,6 @@ const getAllOrders = async (req, res) => {
   res.json(orders);
 };
 
-
 // Remove a specific order by ID
 const removeFromOrder = async (req, res) => {
   try {
@@ -64,4 +63,10 @@ const clearOrder = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getOrders, removeFromOrder, clearOrder, getAllOrders };
+module.exports = {
+  createOrder,
+  getOrders,
+  removeFromOrder,
+  clearOrder,
+  getAllOrders,
+};
