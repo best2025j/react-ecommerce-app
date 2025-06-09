@@ -11,7 +11,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-// Get all orders for the authenticated user
+// Get orders for the authenticated user
 const getOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).populate(
@@ -23,6 +23,15 @@ const getOrders = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch orders" });
   }
 };
+
+// order for admdin
+const getAllOrders = async (req, res) => {
+  const orders = await Order.find({})
+    .populate("user")
+    .populate("products.product");
+  res.json(orders);
+};
+
 
 // Remove a specific order by ID
 const removeFromOrder = async (req, res) => {
@@ -55,4 +64,4 @@ const clearOrder = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getOrders, removeFromOrder, clearOrder };
+module.exports = { createOrder, getOrders, removeFromOrder, clearOrder, getAllOrders };
