@@ -11,7 +11,7 @@ const {
 } = require("../controllers/productController");
 const { protect, admin } = require("../middleWare/auth");
 
- // ✅ Correct path & import
+// ✅ Correct path & import
 
 // Public routes
 router.get("/", getProducts);

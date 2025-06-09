@@ -1,10 +1,15 @@
+//  server.js
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const errorHandler = require("./middleware/errorMiddleware");
+
+// Routes
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 // ✅ Load environment variables
 dotenv.config();
@@ -24,13 +29,18 @@ app.use(
 );
 app.use(express.json());
 
-// ✅ Routes
+// ✅ API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/cart", cartRoutes);
+
 
 // ✅ Root test route
 app.get("/", (req, res) => res.send("API is running..."));
+
+// after all routes
+app.use(errorHandler);
 
 // ✅ Start the server
 const PORT = process.env.PORT || 5000;

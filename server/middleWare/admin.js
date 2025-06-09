@@ -1,9 +1,10 @@
-const isAdmin = (req, res, next) => {
+// server/middleWare/admin.js
+const admin = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
   } else {
-    res.status(403).json({ message: "Admin access only" });
+    res.status(403).json({ message: "Admin access required" });
   }
 };
 
-module.exports = { isAdmin };
+module.exports = admin;

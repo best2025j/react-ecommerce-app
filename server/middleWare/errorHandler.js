@@ -1,7 +1,9 @@
 // server/middleware/errorHandler.js
 const errorHandler = (err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: err.message });
+  res.status(err.statusCode || 500).json({
+    message: err.message || "Server Error",
+  });
 };
 
-module.exports = { errorHandler };
+module.exports = errorHandler;
