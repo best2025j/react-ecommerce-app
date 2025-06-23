@@ -153,6 +153,12 @@ const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
           {error && <p className="text-red-500 text-xs">{error}</p>}
+          <p className="text-sm font-normal text-center">
+            Already have an account{" "}
+            <a href="/register" className="text-blue-600 font-medium">
+              Sign Up here
+            </a>
+          </p>
         </form>
       </div>
     </div>

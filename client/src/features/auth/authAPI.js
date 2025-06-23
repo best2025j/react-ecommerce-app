@@ -17,15 +17,17 @@ export const loginUser = async (userData) => {
 
 // users
 export const getAllUsers = async () => {
-  const response = await axios.get("http://localhost:5000/api/auth/users");
-  // const response = await axios.get(`${API_URL}/users`, userData);
+  // const response = await axios.get("http://localhost:5000/api/auth/users");
+  const response = await axios.get(`${API_URL}/users`, userData);
   return response.data;
 };
 
 // ✅ Get user by ID with token
 export const getUserById = async (userId, token) => {
   const response = await axios.get(
-    `http://localhost:5000/api/auth/users/${userId}`,
+    // `http://localhost:5000/api/auth/users/${userId}`,
+    `${API_URL}/userId`,
+    userData,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -34,3 +36,4 @@ export const getUserById = async (userId, token) => {
   );
   return response.data;
 };
+    

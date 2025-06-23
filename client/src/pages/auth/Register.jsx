@@ -37,6 +37,7 @@ const Register = () => {
     e.preventDefault();
 
     const validationErrors = validateForm();
+    
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -72,7 +73,7 @@ const Register = () => {
     }
   };
 
-  //
+  // for form activeness
   const inputClass = (name) =>
     `w-full border-2 rounded-lg p-2 text-sm text-black outline-none transition-all duration-200 ${
       errors[name]
@@ -174,6 +175,13 @@ const Register = () => {
             {loading ? "Registering..." : "Register"}
           </button>
           {error && <p className="text-red-500 text-xs">{error}</p>}
+
+          <p className="text-sm font-normal text-center">
+            Already have an account{" "}
+            <a href="/login" className="text-blue-600 font-medium">
+              Sign in here
+            </a>
+          </p>
         </form>
       </div>
     </div>

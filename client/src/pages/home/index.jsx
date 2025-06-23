@@ -1,13 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import Hero from "../../components/Hero";
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
     <div className="">
-      {/* <Navbar /> */}
+      <Navbar />
+      <Hero />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 w-full">
         <div className="bg-white shadow-lg rounded-lg p-8 text-center max-w-md w-full">
           <h1 className="text-3xl font-bold text-blue-600 mb-4">
